@@ -27,12 +27,18 @@ var dimPalette = {
 }
 var dim = exports.dim = {}
 
+if (!process.stdout.isTTY) {
+  var passThru = function(message) {
+    return message
+  }
+}
+
 var colors = Object.keys(brightPalette)
 colors.forEach(function(color) {
-  bright[color] = function(message) {
+  bright[color] = passThru || function(message) {
     return fromRGB(color, brightPalette) + message + ansi.reset
   }
-  dim[color] = function(message) {
+  dim[color] = passThru || function(message) {
     return fromRGB(color, dimPalette) + message + ansi.reset
   }
 })
