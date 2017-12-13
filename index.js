@@ -14,7 +14,7 @@ var brightPalette = {
 }
 var bright = exports
 
-var dimPallette = {
+var dimPalette = {
   red: [2, 0, 0],
   blue: [0, 0, 2],
   green: [0, 2, 1],
