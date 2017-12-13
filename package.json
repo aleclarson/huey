@@ -1,6 +1,6 @@
 {
   "name": "huey",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "ansi-256-colors": "^1.1.0"
   }
