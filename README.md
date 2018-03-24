@@ -8,15 +8,26 @@ Available colors:
 - `yellow`
 - `cyan`
 - `pink`
-- `gray`
 - `white`
+- `silver`
+- `gray`
+- `coal`
 - `black`
 
+Pale variants exist for non-monochrome colors.
+
 ```js
-var huey = require('huey')
+const huey = require('huey')
 
-huey.red('Hello world')
+// Create a tinted string.
+let str = huey.red('Hello red world!')
+console.log(str, 'Hello untinted world!')
 
-huey.dim.pink('Howdy partner')
+// Augment a log function.
+let {log} = console
+huey.log(log)
+
+// Only the first argument is tinted.
+log.pale_blue('info:', 'users online =>', 50)
 ```
 
