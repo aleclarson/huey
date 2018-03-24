@@ -1,48 +1,46 @@
+const ansi = require('ansi-256-colors')
 
-var ansi = require('ansi-256-colors')
+const huey = exports
 
-var brightPalette = {
+const colors = {
   red: [5, 0, 0],
+  pale_red: [5, 0, 1],
   blue: [0, 1, 5],
+  pale_blue: [3, 3, 5],
   green: [0, 5, 1],
-  cyan: [0, 3, 4],
-  white: [5, 5, 5],
-  gray: [2, 2, 2],
+  pale_green: [0, 5, 3],
   yellow: [5, 5, 0],
+  pale_yellow: [5, 5, 2],
+  cyan: [0, 3, 4],
+  pale_cyan: [1, 4, 5],
   pink: [5, 0, 4],
+  pale_pink: [5, 1, 4],
+  white: [5, 5, 5],
+  silver: [4, 4, 4],
+  gray: [2, 2, 2],
+  coal: [1, 1, 1],
   black: [0, 0, 0],
 }
-var bright = exports
-
-var dimPalette = {
-  red: [2, 0, 0],
-  blue: [0, 0, 2],
-  green: [0, 2, 1],
-  cyan: [0, 1, 2],
-  white: [3, 3, 3],
-  gray: [1, 1, 1],
-  yellow: [2, 2, 0],
-  pink: [3, 0, 1],
-  black: [0, 0, 0],
-}
-var dim = exports.dim = {}
 
 if (!process.stdout.isTTY) {
-  var passThru = function(message) {
-    return message
-  }
+  var noop = (msg) => msg
 }
 
-var colors = Object.keys(brightPalette)
-colors.forEach(function(color) {
-  bright[color] = passThru || function(message) {
-    return fromRGB(color, brightPalette) + message + ansi.reset
-  }
-  dim[color] = passThru || function(message) {
-    return fromRGB(color, dimPalette) + message + ansi.reset
-  }
+Object.keys(colors).forEach(name => {
+  if (noop) return huey[name] = noop
+  let color = ansi.fg.getRgb(...colors[name])
+  huey[name] = (msg) => color + msg + ansi.reset
 })
 
-function fromRGB(color, palette) {
-  return ansi.fg.getRgb.apply(null, palette[color])
+huey.log = function(log) {
+  if (!process.stdout.isTTY) {
+    var noop = log
+  }
+  Object.keys(colors).forEach(name => {
+    log[name] = noop || function(label, ...args) {
+      log(huey[name](label), ...args)
+    }
+  })
+  return log
 }
+
