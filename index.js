@@ -22,12 +22,7 @@ const colors = {
   black: [0, 0, 0],
 }
 
-if (!process.stdout.isTTY) {
-  var noop = (msg) => msg
-}
-
 Object.keys(colors).forEach(name => {
-  if (noop) return huey[name] = noop
   let color = ansi.fg.getRgb(...colors[name])
   huey[name] = (msg) => color + msg + ansi.reset
 })
