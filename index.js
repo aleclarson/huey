@@ -32,8 +32,8 @@ Object.keys(colors).forEach(name => {
   huey[name] = (msg) => color + msg + ansi.reset
 })
 
-huey.log = function(log) {
-  if (!process.stdout.isTTY) {
+huey.log = function(log, isTTY) {
+  if (!isTTY && !process.stdout.isTTY) {
     var noop = log
   }
   Object.keys(colors).forEach(name => {
