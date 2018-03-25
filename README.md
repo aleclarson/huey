@@ -1,5 +1,5 @@
 
-# huey v1.0.0 
+# huey v1.1.0 
 
 Available colors:
 - `red`
